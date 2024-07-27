@@ -53,3 +53,7 @@
     width:200px;
 }
  
+@media only screen and (max-width: 800px) {
+   .container {   width: 90%;
+   height: 90%;
+}}
