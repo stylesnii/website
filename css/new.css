@@ -19,7 +19,7 @@
 
 .image-gallery img {
   max-width: 400px;
-  min-height: 250px;
+  min-height: 200px;
   padding: 0.8rem;
   border-radius: 40px; 
 }
