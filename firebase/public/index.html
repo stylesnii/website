@@ -39,8 +39,8 @@
 	<link rel="stylesheet" href="css/magnific-popup.css">
 
 	
-	<link rel="stylesheet" href="./style.css">
-	<link rel="stylesheet" href="css/new.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="/css/new.css">
 
 
 	<!-- Modernizr JS -->
@@ -206,6 +206,8 @@
 		 // Import the functions you need from the SDKs you need
 		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 		import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-analytics.js";
+		import { getDatabase, ref, push } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+
 		 //TODO: Add SDKs for Firebase products that you want to use
 		// https://firebase.google.com/docs/web/setup#available-libraries
 	  
@@ -225,6 +227,26 @@
 		// Initialize Firebase
 		const app = initializeApp(firebaseConfig);
 		const analytics = getAnalytics(app);
+		const database = firebase.database();
+
+
+		document.getElementById('newsletterForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const email = document.getElementById('email').value;
+
+        // Save email to Firebase Realtime Database
+        database.ref('newsletter_subscribers').push({
+            email: email,
+            timestamp: new Date().toISOString()
+        }).then(() => {
+            alert('Thank you for subscribing!');
+            document.getElementById('newsletterForm').reset();
+        }).catch((error) => {
+            console.error('Error saving email: ', error);
+        });
+    });
+
+
 	  </script>
 	</body>
 </html>

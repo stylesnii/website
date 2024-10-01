@@ -60,8 +60,8 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<input type="text" class="form-control" id="search" placeholder="Enter any key to search...">
-							<button type="submit" class="btn btn-primary"><i class="icon-search3"></i></button>
+							<!--<input type="text" class="form-control" id="search" placeholder="Enter any key to search...">-->
+							<!--<button type="submit" class="btn btn-primary"><i class="icon-search3"></i></button>-->
 						</div>
 					</div>
 				</div>
@@ -70,9 +70,9 @@
 						<ul>
 							<li class="active"><a href="index.html">Home</a></li>
 							<li><a href="work.html">Gallery</a></li>
-							<li><a href="blog.html">Previews</a></li>
+							<!--<li><a href="blog.html">Previews</a></li>-->
 							<li><a href="about.html">About</a></li>
-							<li><a href="contact.html">Contact</a></li>
+							<li><a href="contact.html">poll</a></li>
 						</ul>
 					</div>
 				</div>
@@ -181,6 +181,7 @@
 						</div>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 	
@@ -203,29 +204,63 @@
 	<!-- Main JS (Do not remove) -->
 	<script src="js/main.js"></script>
 	<script type="module">
-		// Import the functions you need from the SDKs you need
-		//import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-		//import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-analytics.js";
-		// TODO: Add SDKs for Firebase products that you want to use
+		 // Import the functions you need from the SDKs you need
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+		import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-analytics.js";
+		 //TODO: Add SDKs for Firebase products that you want to use
 		// https://firebase.google.com/docs/web/setup#available-libraries
 	  
 		// Your web app's Firebase configuration
 		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-		// const firebaseConfig = {
-		 //  apiKey: "AIzaSyAXNVyd65DBtI9m1wNPSuTW92-Xw7KEH_E",
-		 // authDomain: "web-portfolio-9433a.firebaseapp.com",
-		//  databaseURL: "https://web-portfolio-9433a-default-rtdb.firebaseio.com",
-		//  projectId: "web-portfolio-9433a",
-		 // storageBucket: "web-portfolio-9433a.appspot.com",
-		//  messagingSenderId: "683898606627",
-		 // appId: "1:683898606627:web:65081dfb87452841c1cd96",
-		//  measurementId: "G-2LSFW081S6"
-		///};
+		 const firebaseConfig = {
+		   apiKey: "AIzaSyAXNVyd65DBtI9m1wNPSuTW92-Xw7KEH_E",
+		 authDomain: "web-portfolio-9433a.firebaseapp.com",
+		 databaseURL: "https://web-portfolio-9433a-default-rtdb.firebaseio.com",
+		projectId: "web-portfolio-9433a",
+		 storageBucket: "web-portfolio-9433a.appspot.com",
+		messagingSenderId: "683898606627",
+		 appId: "1:683898606627:web:65081dfb87452841c1cd96",
+		 measurementId: "G-2LSFW081S6"
+		};
 	  
 		// Initialize Firebase
-		//const app = initializeApp(firebaseConfig);
-		//const analytics = getAnalytics(app);
-	 // </script>
+		const app = initializeApp(firebaseConfig);
+		const analytics = getAnalytics(app);
+		const database = firebase.database();
+
+
+		document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('.qbstp-header-subscribe');
+    if (form) {
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            console.log("Form submitted with email:", email);
+            
+            // Save email to Firebase Realtime Database
+            push(ref(database, 'newsletter_subscribers'), {
+                email: email,
+                timestamp: new Date().toISOString()
+            }).then(() => {
+                console.log('Email saved successfully.');
+                if (form) {
+                    form.reset(); // Only reset if the form element is found
+                } else {
+                    console.error('Form element not found.');
+                }
+            }).catch((error) => {
+                console.error('Error saving email: ', error);
+				
+            });
+        });
+    } else {
+        console.error('Form with class .qbstp-header-subscribe not found.');
+    }
+});
+
+
+	  </script>
 	</body>
 </html>
 
